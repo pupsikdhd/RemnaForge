@@ -4,7 +4,7 @@ import ClientSecurity from "./ClientSecurity";
 import QRCodeImage from "./QRCodeImage";
 import { headers } from "next/headers";
 import { isPasswordSet } from "@/lib/crypto";
-import { parseDevices, calculateUsagePercentage, generateVlessLink } from "@/lib/customer";
+import { parseDevices, calculateUsagePercentage, generateVlessLink, generatePageUrl } from "@/lib/customer";
 import { resetDevicesAction, setPasswordAction, changePasswordAction } from "@/lib/customer-actions";
 
 export const dynamic = "force-dynamic";
@@ -30,12 +30,11 @@ export default async function CustomerPage({ params }: CustomerPageProps) {
     const devicesList = parseDevices(client.devices);
     const usagePercentage = calculateUsagePercentage(devicesList.length, client.maxDevices);
 
-    // Получаем хост для формирования VLESS ссылки
     const headerList = await headers();
     const host = headerList.get("host") || "localhost:3000";
     const vlessLink = generateVlessLink(client, host);
+    const pageUrl = generatePageUrl(client.id, host);
 
-    // Привязываем действия к конкретному ID клиента для передачи в Client Component
     const boundResetDevicesAction = resetDevicesAction.bind(null, client.id);
     const boundSetPasswordAction = setPasswordAction.bind(null, client.id);
     const boundChangePasswordAction = changePasswordAction.bind(null, client.id);
@@ -127,7 +126,7 @@ export default async function CustomerPage({ params }: CustomerPageProps) {
 
                             {/* QR-код для быстрого импорта */}
                             <div className="pt-2 border-t border-indigo-100/30 dark:border-indigo-950/30 flex justify-center">
-                                <QRCodeImage text={vlessLink} />
+                                <QRCodeImage text={pageUrl} />
                             </div>
 
                         </div>
