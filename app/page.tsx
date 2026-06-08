@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { checkAuth } from "@/lib/auth-validator";
+import {headers} from "next/headers";
 
 export default async function Home() {
 
+  const headerList = await headers();
 
   return (
       <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-50 p-6 font-sans antialiased dark:bg-zinc-950 selection:bg-indigo-500/30">
@@ -42,7 +44,7 @@ export default async function Home() {
 
           <div className="mt-6 rounded-lg bg-zinc-50 p-4 font-mono text-xs border border-zinc-100 dark:bg-zinc-950 dark:border-zinc-800/60">
             <span className="text-indigo-600 dark:text-indigo-400 break-all font-medium">
-            sub.mussk.ru/customer/<span className="text-zinc-400 dark:text-zinc-500">{"{ваш_secret_uuid}"}</span>
+            {headerList.get("host") || "localhost:3000"}/customer/<span className="text-zinc-400 dark:text-zinc-500">{"{ваш_secret_uuid}"}</span>
           </span>
           </div>
 
