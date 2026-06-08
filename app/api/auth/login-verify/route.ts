@@ -31,8 +31,8 @@ export async function POST(request: Request) {
         const verification = await verifyAuthenticationResponse({
             response: body,
             expectedChallenge,
-            expectedOrigin: "http://localhost:3000", // В продакшене укажите ваш точный origin
-            expectedRPID: "localhost",
+            expectedOrigin: process.env.NEXT_PUBLIC_WEBAUTHN_ORIGIN || "http://localhost:3000",
+            expectedRPID: process.env.NEXT_PUBLIC_WEBAUTHN_RP_ID || "localhost",
             credential: {
                 id: authenticator.id,
                 publicKey: isoBase64URL.toBuffer(authenticator.publicKey),

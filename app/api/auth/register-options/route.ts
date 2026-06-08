@@ -20,7 +20,7 @@ export async function GET() {
     // 2. Генерируем опции для WebAuthn
     const options = await generateRegistrationOptions({
         rpName: "Aeza Home Auth",
-        rpID: "localhost",
+        rpID: process.env.NEXT_PUBLIC_WEBAUTHN_RP_ID || "localhost",
         userID: new TextEncoder().encode(user.id),
         userName: user.username,
         attestationType: "none",

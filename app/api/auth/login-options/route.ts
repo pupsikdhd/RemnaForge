@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     }
 
     const options = await generateAuthenticationOptions({
-        rpID: "localhost", // В продакшене замените на ваш домен без протокола
+        rpID: process.env.NEXT_PUBLIC_WEBAUTHN_RP_ID || "localhost",
         userVerification: "preferred",
         allowCredentials,
     });

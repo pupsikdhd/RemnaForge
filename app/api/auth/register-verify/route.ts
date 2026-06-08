@@ -25,8 +25,8 @@ export async function POST(request: Request) {
         const verification = await verifyRegistrationResponse({
             response: body,
             expectedChallenge,
-            expectedOrigin: "http://localhost:3000",
-            expectedRPID: "localhost"
+            expectedOrigin: process.env.NEXT_PUBLIC_WEBAUTHN_ORIGIN || "http://localhost:3000",
+            expectedRPID: process.env.NEXT_PUBLIC_WEBAUTHN_RP_ID || "localhost"
         });
 
         // ПОПРАВЛЕНО: Проверяем наличие нового вложенного объекта credential
