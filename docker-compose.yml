@@ -1,0 +1,17 @@
+services:
+  vless-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vless-proxy
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=file:/app/data/prod.db
+      - APP_DOMAIN=sub.mussk.ru
+    volumes:
+      - vless_data:/app/data
+
+volumes:
+  vless_data:

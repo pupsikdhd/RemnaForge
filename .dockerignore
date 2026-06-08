@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+build
+.git
+.idea
+.gitignore
+*.db
+*.db-journal
+*.log
+Dockerfile
+docker-compose.yml
+README.md
+deployment_guide.md

@@ -1,0 +1,48 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Admin {
+  id             String          @id @default(cuid())
+  username       String          @unique
+  sessions       Session[]
+  authenticators Authenticator[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  admin     Admin    @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Authenticator {
+  id           String @id
+  userId       String
+  admin        Admin  @relation(references: [id], fields: [userId], onDelete: Cascade)
+  publicKey    String
+  counter      BigInt
+  transports   String
+}
+
+model Client {
+  id           String   @id @default(uuid())
+  name         String
+  passwordHash String
+  isActive     Boolean  @default(true)
+  expiresAt    DateTime
+  maxDevices   Int      @default(2)
+  devices      String   @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SystemSetting {
+  key   String @id
+  value String
+}
